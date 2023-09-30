@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{{ travel.name }}<br>
+{{ travel.location }}<br>
+{{ travel.price }}<br>
+{{ travel.description }}<br>
+<img src="{{travel.image.url}}" href="" width="80px" height="80px"  class="image" alt="Image" ><br>
+
+<a href="{% url 'book' travel.id%}">Kuku</a>
+
+<button class="btn-btn-dark" href="{% url 'travel' travel.id%}">Book</button>
+{% endblock %}

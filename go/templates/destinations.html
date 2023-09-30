@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+
+    <!-- bradcam_area  -->
+    <div class="bradcam_area bradcam_bg_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text text-center">
+                        <h3>{% trans 'Destinations' %}</h3>
+                        <p>P{% trans 'Discover Paradise' %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ bradcam_area  -->
+
+
+    <div class="popular_places_area">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-4">
+                    <div class="filter_result_wrap">
+                        <h3>{% trans 'Filter Result' %}</h3>
+                        <div class="filter_bordered">
+                            <div class="filter_inner">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="single_select">
+                                            <select>
+                                                <!-- <option data-display="Country">Country</option>
+                                                <option value="1">Africa</option>
+                                                <option value="2">canada</option>
+                                                <option value="4">USA</option> -->
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="single_select">
+                                            <select>
+                                                <option data-display="Travel type">{% trans 'Travel type' %}</option>
+                                                <!-- <option value="1">advance</option>
+                                                <option value="2">advance</option>
+                                                <option value="4">premium</option> -->
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="range_slider_wrap">
+                                            <!-- <span class="range">Prise range</span> -->
+                                            <div id="slider-range"></div>
+                                            <p>
+                                                <input type="text" id="amount" disabled readonly style="border:0; color:#7A838B; font-weight:400;">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="reset_btn">
+                                <button class="boxed-btn4" type="submit" disabled >{% trans 'Reset' %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="row">
+                        {% for travel in page %}
+                        <div class="col-lg-8 col-md-8">
+                            
+                            <div class="single_place" style="width: 150%;" >
+                                
+                                <div class="thumb">
+                                    <img src="{{ travel.image.url }}" alt="" >
+                                    <a href="{% url 'travel' travel.id%}" class="prise">${{ travel.price}}</a>
+                                </div>
+                                <div class="place_info">
+                                    <a href="{% url 'travel' travel.id%}"><h3>{{ travel.name }}</h3></a>
+                                    <p>{{ travel.Location }} </p>
+                                    <div class="rating_days d-flex justify-content-between">
+                                        <span class="d-flex justify-content-center align-items-center">
+                                             <i class="fa fa-star"></i> 
+                                             <i class="fa fa-star"></i> 
+                                             <i class="fa fa-star"></i> 
+                                             <i class="fa fa-star"></i> 
+                                             <i class="fa fa-star"></i>
+                                             <a href="{% url 'travel' travel.id%}">{% trans '(20 Review)' %}</a>
+                                        </span>
+                                        <div class="days">
+                                            <i class="fa fa-clock-o"></i>
+                                            <a href="{% url 'travel' travel.id%}">{% trans 'Available' %}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page.has_previous %}
+                                <a href="?page=1">&laquo; {% trans 'first' %}</a>
+                                <a href="?page={{ page.previous_page_number }}">{% trans 'previous' %}</a>
+                            {% endif %}
+                    
+                            <span class="current-page">
+                                Page {{ page.number }} of {{ page.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if page.has_next %}
+                                <a href="?page={{ page.next_page_number }}">{% trans 'next' %}</a>
+                                <a href="?page={{ page.paginator.num_pages }}">{% trans 'last' %} &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>  
+                    
+
+                    <!-- <div class="row">
+                        <div class="col-lg-12">
+                            <div class="more_place_btn text-center">
+                                <a class="boxed-btn4" href="#">More Places</a>
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block rest %}
+{% endblock %}
