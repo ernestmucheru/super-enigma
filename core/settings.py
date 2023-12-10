@@ -14,6 +14,11 @@ from pathlib import Path
 import cloudinary
 import os
 from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
+from decouple import config,Csv
+
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,8 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-SECRET_KEY = 'mysecretkey'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 # Application definition
@@ -76,16 +81,19 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default':{
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mango',
-        'USER': 'x',
-        'PASSWORD': 'onlywayup',
-        'HOST':'localhost',
-        'PORT':'5432',
-    }
-}
+
+if config('MODE')=="dev":
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.postgresql_psycopg2',
+           'NAME': config('POSTGRES_DB'),
+           'USER': config('POSTGRES_USER'),
+           'PASSWORD': config('POSTGRES_PASSWORD'),
+           'HOST': config('POSTGRES_HOST'),
+           'PORT': config( 'POSTGRES_PORT'),
+       }
+       
+   }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -146,9 +154,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'         
           
 cloudinary.config( 
-  cloud_name = "mmwangimucheru", 
-  api_key = "374576266154276", 
-  api_secret = "JO6MbShOUPFIYs_FYcod3iYTBQA" 
+  cloud_name = os.environ.get( 'cloud_name'),
+  api_key = os.environ.get( 'api_key'),
+  api_secret = os.environ.get( 'api_secret')
 )
 
 # # Default primary key field type
@@ -156,12 +164,12 @@ cloudinary.config(
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_PORT = 587
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER = 'postmaster@sandboxb19e6fa8ed6b4a748f3c8ca7cbe8aea5.mailgun.org'
-EMAIL_HOST_PASSWORD = '50cea329b70fa12e1b7984a4d804037c-451410ff-774b4e0d'
-DEFAULT_FROM_EMAIL = 'ernestmucheru254@gmail.com'
 
 
+
+EMAIL_HOST=config('EMAIL_HOST')
+EMAIL_PORT=config('EMAIL_PORT')
+EMAIL_BACKEND=config('EMAIL_BACKEND')
+EMAIL_HOST_USER=config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL=config('DEFAULT_FROM_EMAIL')
